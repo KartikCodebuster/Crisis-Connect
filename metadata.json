@@ -1,0 +1,8 @@
+{
+  "name": "CRISIS CONNECT",
+  "description": "Hyper-local mutual aid network and real-time emergency response platform for communities and families.",
+  "requestFramePermissions": [
+    "geolocation"
+  ],
+  "majorCapabilities": []
+}

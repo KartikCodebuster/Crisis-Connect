@@ -1,0 +1,94 @@
+{
+  "entities": {
+    "User": {
+      "title": "User Profile",
+      "description": "Stores user profile and last known location for nearby alerts.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "displayName": { "type": "string" },
+        "email": { "type": "string" },
+        "photoURL": { "type": "string" },
+        "phoneNumber": { "type": "string" },
+        "lastLocation": { "type": "object" },
+        "geohash": { "type": "string" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "email", "updatedAt"]
+    },
+    "Emergency": {
+      "title": "Emergency Request",
+      "description": "An active SOS request from a user in distress.",
+      "type": "object",
+      "properties": {
+        "requesterId": { "type": "string" },
+        "requesterName": { "type": "string" },
+        "requesterPhone": { "type": "string" },
+        "requesterPhoto": { "type": "string" },
+        "circleIds": { "type": "array", "items": { "type": "string" } },
+        "location": { "type": "object" },
+        "geohash": { "type": "string" },
+        "status": { "type": "string", "enum": ["pending", "accepted", "resolved"] },
+        "helperId": { "type": "string" },
+        "helperName": { "type": "string" },
+        "description": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["requesterId", "location", "geohash", "status", "createdAt", "updatedAt"]
+    },
+    "Message": {
+      "title": "Emergency Chat Message",
+      "description": "Real-time communication between distress user and helper.",
+      "type": "object",
+      "properties": {
+        "senderId": { "type": "string" },
+        "senderName": { "type": "string" },
+        "text": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["senderId", "text", "createdAt"]
+    },
+    "Circle": {
+      "title": "Safety Circle",
+      "description": "Private group for family and close contacts",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "inviteCode": { "type": "string" },
+        "ownerId": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "name", "inviteCode", "ownerId"]
+    }
+  },
+  "firestore": {
+    "users": {
+      "schema": "User",
+      "description": "User profiles"
+    },
+    "emergencies": {
+      "schema": "Emergency",
+      "description": "Emergency requests"
+    },
+    "emergencies/{emergencyId}/messages": {
+      "schema": "Message",
+      "description": "Chat messages for a specific emergency"
+    },
+    "circles": {
+      "schema": "Circle",
+      "description": "Private safety groups"
+    },
+    "circles/{circleId}/members": {
+      "schema": "User",
+      "description": "Members of a specific safety circle"
+    },
+    "inviteCodes": {
+      "description": "Maps short invite codes to circle IDs"
+    },
+    "users/{userId}/memberships": {
+      "description": "Circles the user belongs to"
+    }
+  }
+}
